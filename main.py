@@ -446,25 +446,38 @@ async def on_message(message):
       if calName == "No name":
         end = len(memName) - 5
         calName = (memName[slice(end)]) + "'s Accountability Calendar"
-      calString = "```" + calName + "\n\n" + habitName + "\nS M T W T F S\n"
-      i = 0
-      j = 0
+      calString = "```" + calName + "\n\n"
       for key in myCal:
-        while i < len(myCal):
-          for t in myCal:
-            calString += t + " "
-            i = i+1
-            j = j+1
-            if t == "✓":
-              success += 1
-            if t == "x":
-              fail += 1
-            if j == 7:
-              calString += "\n"
-              j = 0
-          j = j + 1
-      calString += "\n"
+        calString += key + "\nS M T W T F S\n"
+        i = 0
+        j = 0
+        k = 0
+        list2 = myCal.values()
+        strList2 = str(list2)
+        strList21 = strList2.replace("dict_values([", "")
+        strList22 = strList21.replace("])", "")
 
+        val = literal_eval(strList22)
+
+        await message.channel.send(list2)
+        value = val[i]
+        for t in value:
+          print (value)
+          print ("above")
+          calString += t + " "
+          j = j+1
+          if t == "✓":
+            success += 1
+          if t == "x":
+            fail += 1
+          if j == 7:
+            calString += "\n"
+            j = 0
+          j = j + 1
+          k = k + 1
+        calString += "\n\n"
+        i = i+1
+      
     else:
       if calName == "No name":
         end = len(memName) - 5
