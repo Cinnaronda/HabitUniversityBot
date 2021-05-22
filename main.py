@@ -358,12 +358,12 @@ async def on_message(message):
           day = int(day) + startIndex -1
           newCal = []
           n = 0
-          for i in myCal:
+          for i in myCal[string]:
             if n != day:
               newCal.append(i)
             else:
               newCal.append("✓")
-              n += 1
+            n += 1
           myCal[string] = newCal
           if " " in memName:
             userName = memName.replace(" ", "@")
