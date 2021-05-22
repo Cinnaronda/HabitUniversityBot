@@ -310,15 +310,22 @@ async def on_message(message):
       for key in myCal:
         for proposedHabit in habitArray:
           if key == proposedHabit:
+            newCal = []
+            n = 0
             print (key)
             print (myCal[key])
             for t in myCal[key]:
-              for i in myCal:
-                if n != day:
-                  newCal.append(i)
-                else:
-                  newCal.append("✓")
-                n += 1
+              if n != day:
+                newCal.append(t)
+              else:
+                newCal.append("✓")
+              n += 1
+            myCal[key] = newCal
+        if " " in memName:
+          userName = memName.replace(" ", "@")
+          userName = userName.replace("#", "@")
+      db[userName] = [memName, myCal, startIndex, habitName]
+      retrieve_data(userName)
     else:
       for i in myCal:
         if n != day:
@@ -326,11 +333,11 @@ async def on_message(message):
         else:
           newCal.append("✓")
         n += 1
-    if " " in memName:
-      userName = memName.replace(" ", "@")
-      userName = userName.replace("#", "@")
-    db[userName] = [memName, newCal, startIndex, habitName]
-    retrieve_data(userName)
+      if " " in memName:
+        userName = memName.replace(" ", "@")
+        userName = userName.replace("#", "@")
+      db[userName] = [memName, newCal, startIndex, habitName]
+      retrieve_data(userName)
     await message.channel.send("Recorded success for the day!")
 
   if msg.startswith('$sModify'):
@@ -461,6 +468,8 @@ async def on_message(message):
     success = 0
     fail = 0
 
+
+    await message.channel.send(myCal)
     if habitName == "Multiple":
       gradeDict = {}
       if calName == "No name":
