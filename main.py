@@ -259,7 +259,7 @@ async def on_message(message):
     habitDict = {}
     if habitName == "No name":
       habitList = msg.split(" ", 10)
-      if len(habitList) > 2:
+      if len(habitList) > 3:
         initialize_cal()
         for a in range(1, len(habitList)):
           newHabit = ""
@@ -272,9 +272,10 @@ async def on_message(message):
             userName = userName.replace("#", "@")
 
           db[userName] = [memName, habitDict, startIndex, "Multiple"]
+          await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
 
 
-      else:
+      if len(habitList) == 2:
         habit = msg.split(" ", 1)[1]
 
         if len(habit) > 1:
@@ -301,13 +302,30 @@ async def on_message(message):
     retrieve_data(userName)
     day = int(todayArray[2]) + startIndex - 1
     newCal = []
+    habitArray = []
     n = 0
-    for i in myCal:
-      if n != day:
-        newCal.append(i)
-      else:
-        newCal.append("✓")
-      n += 1
+    #--------------------------
+    habitArray = msg.split(" ", 15)
+    if len(habitArray) > 1 and habitName == "Multiple":
+      for key in myCal:
+        for proposedHabit in habitArray:
+          if key == proposedHabit:
+            print (key)
+            print (myCal[key])
+            for t in myCal[key]:
+              for i in myCal:
+                if n != day:
+                  newCal.append(i)
+                else:
+                  newCal.append("✓")
+                n += 1
+    else:
+      for i in myCal:
+        if n != day:
+          newCal.append(i)
+        else:
+          newCal.append("✓")
+        n += 1
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
