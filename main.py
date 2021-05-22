@@ -476,9 +476,9 @@ async def on_message(message):
         end = len(memName) - 5
         calName = (memName[slice(end)]) + "'s Accountability Calendar"
       calString = "```" + calName + "\n\n"
+      i = 0
       for key in myCal:
         calString += key + "\nS M T W T F S\n"
-        i = 0
         k = 0
         list2 = myCal.values()
         strList2 = str(list2)
@@ -486,9 +486,10 @@ async def on_message(message):
         strList22 = strList21.replace("])", "")
 
         val = literal_eval(strList22)
-
         value = val[i]
         j = 0
+        success = 0
+        fail = 0
         for t in value:
           j = j + 1
           calString += t + " "
