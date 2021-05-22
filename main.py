@@ -260,8 +260,8 @@ async def on_message(message):
     if habitName == "No name":
       habitList = msg.split(" ", 10)
       if len(habitList) > 2:
+        initialize_cal()
         for a in range(1, len(habitList)):
-          initialize_cal()
           newHabit = ""
           habit = habitList[a]
           newHabit = habit[0].upper() + habit[1:]
@@ -270,7 +270,8 @@ async def on_message(message):
           if " " in memName:
             userName = memName.replace(" ", "@")
             userName = userName.replace("#", "@")
-          db[userName] = [memName, myCal, startIndex, newHabit]
+
+          db[userName] = [memName, habitDict, startIndex, "Multiple"]
 
 
       else:
@@ -450,7 +451,6 @@ async def on_message(message):
       for key in myCal:
         calString += key + "\nS M T W T F S\n"
         i = 0
-        j = 0
         k = 0
         list2 = myCal.values()
         strList2 = str(list2)
@@ -461,11 +461,12 @@ async def on_message(message):
 
         await message.channel.send(list2)
         value = val[i]
+        j = 0
         for t in value:
           print (value)
           print ("above")
+          j = j + 1
           calString += t + " "
-          j = j+1
           if t == "✓":
             success += 1
           if t == "x":
@@ -473,7 +474,6 @@ async def on_message(message):
           if j == 7:
             calString += "\n"
             j = 0
-          j = j + 1
           k = k + 1
         calString += "\n\n"
         i = i+1
