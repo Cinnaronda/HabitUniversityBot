@@ -263,9 +263,14 @@ async def on_message(message):
         for a in range(1, len(habitList)):
           initialize_cal()
           newHabit = ""
-          newHabit = habit[a]
+          habit = habitList[a]
           newHabit = habit[0].upper() + habit[1:]
-          habitDict[]
+          habitDict[newHabit] = myCal
+
+          if " " in memName:
+            userName = memName.replace(" ", "@")
+            userName = userName.replace("#", "@")
+          db[userName] = [memName, myCal, startIndex, newHabit]
 
 
       else:
@@ -442,6 +447,8 @@ async def on_message(message):
     calString = "```" + calName + "\n\n" + habitName + "\nS M T W T F S\n"
     i = 0
     j = 0
+
+  
 
     while i < len(myCal):
         for t in myCal:
