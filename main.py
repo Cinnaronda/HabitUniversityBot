@@ -346,23 +346,54 @@ async def on_message(message):
       userName = userName.replace("#", "@")
     retrieve_data(userName)
     dayArray = msg.split(" ", 35)
-    for a in range(1, len(dayArray)):
-      day = dayArray[a]
-      day = int(day) + startIndex -1
-      newCal = []
-      n = 0
-      for i in myCal:
-        if n != day:
-          newCal.append(i)
-        else:
-          newCal.append("✓")
-        n += 1
-      if " " in memName:
-        userName = memName.replace(" ", "@")
-        userName = userName.replace("#", "@")
-      db[userName] = [memName, newCal, startIndex, habitName]
-      retrieve_data(userName)
-    await message.channel.send("Recorded success for that day!")
+    if len(dayArray) > 1 and habitName == "Multiple":
+      await message.channel.send("Which habit would you like to modify the calendar for?")
+      msg2 = await client.wait_for("message")
+      string = '{0.content}'.format(msg2)
+      #await message.channel.send(string)
+      #await message.channel.send('You said {0.content}'.format(msg2))
+      if string in myCal:
+        for a in range(1, len(dayArray)):
+          day = dayArray[a]
+          day = int(day) + startIndex -1
+          newCal = []
+          n = 0
+          for i in myCal:
+            if n != day:
+              newCal.append(i)
+            else:
+              newCal.append("✓")
+              n += 1
+          myCal[string] = newCal
+          if " " in memName:
+            userName = memName.replace(" ", "@")
+            userName = userName.replace("#", "@")
+        db[userName] = [memName, myCal, startIndex, habitName]
+        retrieve_data(userName)
+        await message.channel.send("Recorded!")
+      else:
+        await message.channel.send("No such habit.")
+
+
+
+    else:
+      for a in range(1, len(dayArray)):
+        day = dayArray[a]
+        day = int(day) + startIndex -1
+        newCal = []
+        n = 0
+        for i in myCal:
+          if n != day:
+            newCal.append(i)
+          else:
+            newCal.append("✓")
+          n += 1
+        if " " in memName:
+          userName = memName.replace(" ", "@")
+          userName = userName.replace("#", "@")
+        db[userName] = [memName, newCal, startIndex, habitName]
+        retrieve_data(userName)
+        await message.channel.send("Recorded!")
 
   if msg.startswith('$fModify'):
     userName = ""
