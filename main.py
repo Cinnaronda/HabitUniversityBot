@@ -441,14 +441,14 @@ async def on_message(message):
     retrieve_data(userName)
     success = 0
     fail = 0
-    if calName == "No name":
-      end = len(memName) - 5
-      calName = (memName[slice(end)]) + "'s Accountability Calendar"
-    calString = "```" + calName + "\n\n" + habitName + "\nS M T W T F S\n"
-    i = 0
-    j = 0
 
     if habitName == "Multiple":
+      if calName == "No name":
+        end = len(memName) - 5
+        calName = (memName[slice(end)]) + "'s Accountability Calendar"
+      calString = "```" + calName + "\n\n" + habitName + "\nS M T W T F S\n"
+      i = 0
+      j = 0
       for key in myCal:
         while i < len(myCal):
           for t in myCal:
@@ -465,20 +465,27 @@ async def on_message(message):
           j = j + 1
       calString += "\n"
 
-    while i < len(myCal):
-        for t in myCal:
-          calString += t + " "
-          i = i+1
-          j = j+1
-          if t == "✓":
-            success += 1
-          if t == "x":
-            fail += 1
-          if j == 7:
-            calString += "\n"
-            j = 0
-        j = j + 1
-    calString += "\n"
+    else:
+      if calName == "No name":
+        end = len(memName) - 5
+        calName = (memName[slice(end)]) + "'s Accountability Calendar"
+      calString = "```" + calName + "\n\n" + habitName + "\nS M T W T F S\n"
+      i = 0
+      j = 0
+      while i < len(myCal):
+          for t in myCal:
+            calString += t + " "
+            i = i+1
+            j = j+1
+            if t == "✓":
+              success += 1
+            if t == "x":
+              fail += 1
+            if j == 7:
+              calString += "\n"
+              j = 0
+          j = j + 1
+      calString += "\n"
 
     if (success+fail != 0):
       percentage = (str((success / (success+fail))*100))
