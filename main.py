@@ -272,7 +272,7 @@ async def on_message(message):
             userName = userName.replace("#", "@")
 
           db[userName] = [memName, habitDict, startIndex, "Multiple"]
-          await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
+      await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
 
 
       if len(habitList) == 2:
