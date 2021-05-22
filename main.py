@@ -444,6 +444,7 @@ async def on_message(message):
     fail = 0
 
     if habitName == "Multiple":
+      gradeDict = {}
       if calName == "No name":
         end = len(memName) - 5
         calName = (memName[slice(end)]) + "'s Accountability Calendar"
@@ -459,12 +460,9 @@ async def on_message(message):
 
         val = literal_eval(strList22)
 
-        await message.channel.send(list2)
         value = val[i]
         j = 0
         for t in value:
-          print (value)
-          print ("above")
           j = j + 1
           calString += t + " "
           if t == "✓":
@@ -477,6 +475,39 @@ async def on_message(message):
           k = k + 1
         calString += "\n\n"
         i = i+1
+        if (success+fail != 0):
+          percentage = (str((success / (success+fail))*100))
+          percentage = int((percentage.split(".", 1))[0])
+          grade = "Z"
+          if (percentage >= 97):
+            grade = "A+"
+          elif (percentage >= 93):
+            grade = "A"
+          elif (percentage >= 90):
+            grade = "A-"
+          elif (percentage >= 87):
+            grade = "B+"
+          elif (percentage >= 83):
+            grade = "B"
+          elif (percentage >= 80):
+            grade = "B-"
+          elif (percentage >= 77):
+            grade = "C+"
+          elif (percentage >= 73):
+            grade = "C"
+          elif (percentage >= 70):
+            grade = "C-"
+          elif (percentage >= 67):
+            grade = "D+"
+          elif (percentage >= 63):
+            grade = "D"
+          elif (percentage >= 60):
+            grade = "D-"
+          else:
+            grade = "F"
+        else:
+            grade = "-"
+        gradeDict[key] = grade
       
     else:
       if calName == "No name":
@@ -500,41 +531,47 @@ async def on_message(message):
           j = j + 1
       calString += "\n"
 
-    if (success+fail != 0):
-      percentage = (str((success / (success+fail))*100))
-      percentage = int((percentage.split(".", 1))[0])
-      grade = "Z"
-      if (percentage >= 97):
-        grade = "A+"
-      elif (percentage >= 93):
-        grade = "A"
-      elif (percentage >= 90):
-        grade = "A-"
-      elif (percentage >= 87):
-        grade = "B+"
-      elif (percentage >= 83):
-        grade = "B"
-      elif (percentage >= 80):
-        grade = "B-"
-      elif (percentage >= 77):
-        grade = "C+"
-      elif (percentage >= 73):
-        grade = "C"
-      elif (percentage >= 70):
-        grade = "C-"
-      elif (percentage >= 67):
-        grade = "D+"
-      elif (percentage >= 63):
-        grade = "D"
-      elif (percentage >= 60):
-        grade = "D-"
+      if (success+fail != 0):
+        percentage = (str((success / (success+fail))*100))
+        percentage = int((percentage.split(".", 1))[0])
+        grade = "Z"
+        if (percentage >= 97):
+          grade = "A+"
+        elif (percentage >= 93):
+          grade = "A"
+        elif (percentage >= 90):
+          grade = "A-"
+        elif (percentage >= 87):
+          grade = "B+"
+        elif (percentage >= 83):
+          grade = "B"
+        elif (percentage >= 80):
+          grade = "B-"
+        elif (percentage >= 77):
+          grade = "C+"
+        elif (percentage >= 73):
+          grade = "C"
+        elif (percentage >= 70):
+          grade = "C-"
+        elif (percentage >= 67):
+          grade = "D+"
+        elif (percentage >= 63):
+          grade = "D"
+        elif (percentage >= 60):
+          grade = "D-"
+        else:
+          grade = "F"
       else:
-        grade = "F"
-    else:
-      grade = "-"
+        grade = "-"
     
-
-    await message.channel.send(calString + "\nReport Card\n" + habitName + ": " + grade + "```")
+    if habitName == "Multiple":
+      calString += "\nReport Card\n"
+      for key, value in gradeDict.items():
+        calString += key + ": " + value + "\n"
+      await message.channel.send(calString + "```")
+      
+    else:
+      await message.channel.send(calString + "\nReport Card\n" + habitName + ": " + grade + "```")
 
     #await message.channel.send(calString + "\nReport Card\n" + "Gym" + ": " + str(percentage)+ "%" + "```")
 
