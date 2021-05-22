@@ -437,7 +437,7 @@ async def on_message(message):
               if n != day:
                 newCal.append(t)
               else:
-                newCal.append("✓")
+                newCal.append("x")
               n += 1
             myCal[key] = newCal
         if " " in memName:
@@ -482,7 +482,7 @@ async def on_message(message):
               if n != day:
                 newCal.append(t)
               else:
-                newCal.append("✓")
+                newCal.append(".")
               n += 1
             myCal[key] = newCal
         if " " in memName:
