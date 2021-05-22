@@ -448,7 +448,22 @@ async def on_message(message):
     i = 0
     j = 0
 
-  
+    if habitName == "Multiple":
+      for key in myCal:
+        while i < len(myCal):
+          for t in myCal:
+            calString += t + " "
+            i = i+1
+            j = j+1
+            if t == "✓":
+              success += 1
+            if t == "x":
+              fail += 1
+            if j == 7:
+              calString += "\n"
+              j = 0
+          j = j + 1
+      calString += "\n"
 
     while i < len(myCal):
         for t in myCal:
