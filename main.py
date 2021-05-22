@@ -304,7 +304,6 @@ async def on_message(message):
     newCal = []
     habitArray = []
     n = 0
-    #--------------------------
     habitArray = msg.split(" ", 15)
     if len(habitArray) > 1 and habitName == "Multiple":
       for key in myCal:
@@ -423,18 +422,41 @@ async def on_message(message):
     retrieve_data(userName)
     day = int(todayArray[2]) + startIndex - 1
     newCal = []
+    habitArray = []
     n = 0
-    for i in myCal:
-      if n != day:
-        newCal.append(i)
-      else:
-        newCal.append("x")
-      n += 1
-    if " " in memName:
-      userName = memName.replace(" ", "@")
-      userName = userName.replace("#", "@")
-    db[userName] = [memName, newCal, startIndex, habitName]
-    retrieve_data(userName)
+    habitArray = msg.split(" ", 15)
+    if len(habitArray) > 1 and habitName == "Multiple":
+      for key in myCal:
+        for proposedHabit in habitArray:
+          if key == proposedHabit:
+            newCal = []
+            n = 0
+            print (key)
+            print (myCal[key])
+            for t in myCal[key]:
+              if n != day:
+                newCal.append(t)
+              else:
+                newCal.append("✓")
+              n += 1
+            myCal[key] = newCal
+        if " " in memName:
+          userName = memName.replace(" ", "@")
+          userName = userName.replace("#", "@")
+      db[userName] = [memName, myCal, startIndex, habitName]
+      retrieve_data(userName)
+    else:
+      for i in myCal:
+        if n != day:
+          newCal.append(i)
+        else:
+          newCal.append("x")
+        n += 1
+      if " " in memName:
+        userName = memName.replace(" ", "@")
+        userName = userName.replace("#", "@")
+      db[userName] = [memName, newCal, startIndex, habitName]
+      retrieve_data(userName)
     await message.channel.send("Recorded failure for the day :(")
 
   if msg.startswith('$unmark'):
@@ -445,18 +467,41 @@ async def on_message(message):
     retrieve_data(userName)
     day = int(todayArray[2]) + startIndex - 1
     newCal = []
+    habitArray = []
     n = 0
-    for i in myCal:
-      if n != day:
-        newCal.append(i)
-      else:
-        newCal.append(".")
-      n += 1
-    if " " in memName:
-      userName = memName.replace(" ", "@")
-      userName = userName.replace("#", "@")
-    db[userName] = [memName, newCal, startIndex, habitName]
-    retrieve_data(userName)
+    habitArray = msg.split(" ", 15)
+    if len(habitArray) > 1 and habitName == "Multiple":
+      for key in myCal:
+        for proposedHabit in habitArray:
+          if key == proposedHabit:
+            newCal = []
+            n = 0
+            print (key)
+            print (myCal[key])
+            for t in myCal[key]:
+              if n != day:
+                newCal.append(t)
+              else:
+                newCal.append("✓")
+              n += 1
+            myCal[key] = newCal
+        if " " in memName:
+          userName = memName.replace(" ", "@")
+          userName = userName.replace("#", "@")
+      db[userName] = [memName, myCal, startIndex, habitName]
+      retrieve_data(userName)
+    else:
+      for i in myCal:
+        if n != day:
+          newCal.append(i)
+        else:
+          newCal.append(".")
+        n += 1
+      if " " in memName:
+        userName = memName.replace(" ", "@")
+        userName = userName.replace("#", "@")
+      db[userName] = [memName, newCal, startIndex, habitName]
+      retrieve_data(userName)
     await message.channel.send("Removed markings from the day.")
 
   if msg.startswith('$myCal'):
