@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "encourage-bot"
+name = "habit-university"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Cinnaronda <sharonda.d27@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"

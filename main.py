@@ -504,7 +504,7 @@ async def on_message(message):
           userName = userName.replace("#", "@")
         db[userName] = [memName, newCal, startIndex, habitName]
         retrieve_data(userName)
-        await message.channel.send("Recorded!")
+      await message.channel.send("Recorded!")
 
   if msg.startswith('$fModify'):
     userName = ""
@@ -555,7 +555,7 @@ async def on_message(message):
           userName = userName.replace("#", "@")
         db[userName] = [memName, newCal, startIndex, habitName]
         retrieve_data(userName)
-        await message.channel.send("Recorded!")
+      await message.channel.send("Recorded!")
 
   if msg.startswith('$uModify'):
     userName = ""
@@ -606,7 +606,7 @@ async def on_message(message):
           userName = userName.replace("#", "@")
         db[userName] = [memName, newCal, startIndex, habitName]
         retrieve_data(userName)
-        await message.channel.send("Recorded!")
+      await message.channel.send("Recorded!")
 
   if msg.startswith('$fail'):
     userName = ""
