@@ -10,11 +10,13 @@ import datetime
 from datetime import date
 import numpy
 from ast import literal_eval
+from pytz import timezone
 
 
 #Variables
+tz = timezone('EST')
 client = discord.Client()
-today = date.today()
+today = str(datetime.datetime.now(tz))[0:10]
 todayArray = str(today).split("-")
 myCal = []
 defaultCal = []
@@ -637,6 +639,25 @@ async def on_message(message):
           userName = userName.replace("#", "@")
       db[userName] = [memName, myCal, startIndex, habitName]
       retrieve_data(userName)
+    elif len(habitArray) == 1 and habitName == "Multiple":
+      for key in myCal:
+        for proposedHabit in habitArray:
+          newCal = []
+          n = 0
+          print (key)
+          print (myCal[key])
+          for t in myCal[key]:
+            if n != day:
+              newCal.append(t)
+            else:
+              newCal.append("x")
+            n += 1
+          myCal[key] = newCal
+        if " " in memName:
+          userName = memName.replace(" ", "@")
+          userName = userName.replace("#", "@")
+      db[userName] = [memName, myCal, startIndex, habitName]
+      retrieve_data(userName)
     else:
       for i in myCal:
         if n != day:
@@ -677,6 +698,25 @@ async def on_message(message):
                 newCal.append(".")
               n += 1
             myCal[key] = newCal
+        if " " in memName:
+          userName = memName.replace(" ", "@")
+          userName = userName.replace("#", "@")
+      db[userName] = [memName, myCal, startIndex, habitName]
+      retrieve_data(userName)
+    elif len(habitArray) == 1 and habitName == "Multiple":
+      for key in myCal:
+        for proposedHabit in habitArray:
+          newCal = []
+          n = 0
+          print (key)
+          print (myCal[key])
+          for t in myCal[key]:
+            if n != day:
+              newCal.append(t)
+            else:
+              newCal.append(".")
+            n += 1
+          myCal[key] = newCal
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
