@@ -49,8 +49,6 @@ if "responding" not in db.keys():
 
 #
 def initialize_cal():
-  
-
   #for x in range(1, int(weekDay)+1):
   if weekDay == 6:
     for y in range (0, numDaysInMonth):
@@ -64,6 +62,23 @@ def initialize_cal():
       myCal.append(" ")
     for a in range (0, numDaysInMonth):
       myCal.append(".")
+
+def clean_initialize_cal():
+  myCalClean = []
+  #for x in range(1, int(weekDay)+1):
+  if weekDay == 6:
+    for y in range (0, numDaysInMonth):
+      #myCal.append["."]
+      if (numDaysInMonth - ((numDaysInMonth // 7) * 7)) != 0:
+        leftover = numDaysInMonth - ((numDaysInMonth // 7) * 7)
+        for a in range (0, leftover):
+          myCalClean.append(".")
+  else : #Monday
+    for b in range (0, weekDay + 1):
+      myCalClean.append(" ")
+    for a in range (0, numDaysInMonth):
+      myCalClean.append(".")
+  return myCalClean
 
 def retrieve_data(senderName):
   global ran
@@ -231,7 +246,7 @@ async def on_message(message):
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
     value = db[userName]
-    await message.channel.send(value)
+    #await message.channel.send(value)
     val = db[userName]
     val = str(val).replace("[[", "[")
     val = str(val).replace("]]", "]")
@@ -257,9 +272,10 @@ async def on_message(message):
     end = len(memName) - 5
     calName = (memName[slice(end)]) + "'s Accountability Calendar"
     habitDict = {}
+    print(habitName)
     if habitName == "No name":
       habitList = msg.split(" ", 10)
-      if len(habitList) > 3:
+      if len(habitList) > 2:
         initialize_cal()
         for a in range(1, len(habitList)):
           newHabit = ""
@@ -272,7 +288,7 @@ async def on_message(message):
             userName = userName.replace("#", "@")
 
           db[userName] = [memName, habitDict, startIndex, "Multiple"]
-      await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
+        await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
 
 
       if len(habitList) == 2:
@@ -292,6 +308,85 @@ async def on_message(message):
           await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
         else:
           await message.channel.send("Add a habit! Type $addHabit HabitGoesHere" + " ")
+    else:
+      await message.channel.send("There is already a habit in place! Would you like to add another habit? Send Y for yes or N for no.")
+      choice = await client.wait_for("message")
+      choice = '{0.content}'.format(choice)
+      if choice.upper() == "Y":
+        habitList = msg.split(" ", 10)
+        print(habitDict)
+        if len(habitList) > 2:
+          if habitName == "Multiple":
+            await message.channel.send("Performing habit add with numerous habits")
+            initialize_cal()
+            for a in range(1, len(habitList)):
+              newHabit = ""
+              habit = habitList[a]
+              newHabit = habit[0].upper() + habit[1:]
+              habitDict[newHabit] = myCal
+
+              if " " in memName:
+                userName = memName.replace(" ", "@")
+                userName = userName.replace("#", "@")
+
+              db[userName] = [memName, habitDict, startIndex, "Multiple"]
+              await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
+          else:
+            await message.channel.send("Performing habit add with 1 habit")
+            habitDict[habitName] =  myCal
+            calVal = clean_initialize_cal()
+            for a in range(1, len(habitList)):
+              newHabit = ""
+              habit = habitList[a]
+              newHabit = habit[0].upper() + habit[1:]
+              habitDict[newHabit] = calVal
+
+            if " " in memName:
+              userName = memName.replace(" ", "@")
+              userName = userName.replace("#", "@")
+
+            db[userName] = [memName, habitDict, startIndex, "Multiple"]
+
+            await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
+        
+        elif len(habitList) == 2:
+          '''
+          if habitName == "Multiple":
+            await message.channel.send("Performing habit add 1 habit with numerous habits")
+            habit = msg.split(" ", 1)[1]
+            clean_initialize_cal
+
+          else:
+            '''
+          await message.channel.send("Performing habit add 1 habit with 1 habit")
+          print(habitDict)
+          if habitName != "Multiple":
+            habitDict[habitName] =  myCal
+          else:
+            for key, value in myCal.items():
+              habitDict[key] = value
+          habit = msg.split(" ", 1)[1]
+          if len(habit) > 1:
+            print(habitDict)
+            newHabit = ""
+            newHabit = habit[1]
+            newHabit = habit[0].upper() + habit[1:]
+            calVal = clean_initialize_cal()
+            print(habitDict)
+            habitDict[newHabit] = calVal
+            print(habitDict)
+
+            if " " in memName:
+              userName = memName.replace(" ", "@")
+              userName = userName.replace("#", "@")
+            db[userName] = [memName, habitDict, startIndex, "Multiple"]
+            await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
+        else:
+          await message.channel.send("Add a habit! Type $addHabit HabitGoesHere" + " ")
+
+      if choice.upper() == "N":
+        await message.channel.send("No habit was added. Remember, if you'd like to erase all data (including habits) you can use $delData")
+
     
 
   if msg.startswith('$success'):
