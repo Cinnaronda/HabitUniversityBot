@@ -93,6 +93,8 @@ def retrieve_data(senderName):
   if " " in senderName:
         senderName = senderName.replace(" ", "@")
         senderName = senderName.replace("#", "@")
+  else:
+    senderName = senderName.replace("#", "@")
   while ran != 1:
     if h == -1:
       break
@@ -115,6 +117,8 @@ def retrieve_data(senderName):
       calName = "No name"
       if " " in senderName:
         senderName = senderName.replace(" ", "@")
+        senderName = senderName.replace("#", "@")
+      else:
         senderName = senderName.replace("#", "@")
       db[senderName] = calData
 '''
@@ -173,6 +177,8 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     db[userName] = [memName, defaultCal, 0, "No name"]
     retrieve_data(userName)
     await message.channel.send("Erased your data!")
@@ -182,11 +188,16 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     
     value = db[userName]
     await message.channel.send(value)
 
+  if msg.startswith('$keys'):
     
+    keys = db.keys()
+    await message.channel.send(list(keys))
 
   if msg.startswith('$daTesting2'):
     db["test@"] = "value"
@@ -218,12 +229,16 @@ async def on_message(message):
       memName = dataToAdd[1]
       global habitName
       habitName = dataToAdd[2]
+      print(memName)
       initialize_cal()
       userName = ""
       if " " in memName:
         userName = memName.replace(" ", "@")
         userName = userName.replace("#", "@")
-      db[userName] = [memName, myCal, startIndex, habitName]
+      else:
+        userName = memName.replace("#", "@")
+      print(userName)
+      db[userName] = [memName, defaultCal, 0, habitName]
       retrieve_data(userName)
       await message.channel.send("Done!")
     else:
@@ -247,6 +262,8 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     value = db[userName]
     #await message.channel.send(value)
     val = db[userName]
@@ -270,6 +287,8 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     retrieve_data(userName)
     end = len(memName) - 5
     calName = (memName[slice(end)]) + "'s Accountability Calendar"
@@ -285,9 +304,12 @@ async def on_message(message):
           newHabit = habit[0].upper() + habit[1:]
           habitDict[newHabit] = myCal
 
+          
           if " " in memName:
             userName = memName.replace(" ", "@")
             userName = userName.replace("#", "@")
+          else:
+            userName = memName.replace("#", "@")
 
           db[userName] = [memName, habitDict, startIndex, "Multiple"]
         await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
@@ -306,6 +328,9 @@ async def on_message(message):
           if " " in memName:
             userName = memName.replace(" ", "@")
             userName = userName.replace("#", "@")
+          else:
+            userName = memName.replace("#", "@")
+
           db[userName] = [memName, myCal, startIndex, newHabit]
           await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
         else:
@@ -330,6 +355,8 @@ async def on_message(message):
               if " " in memName:
                 userName = memName.replace(" ", "@")
                 userName = userName.replace("#", "@")
+              else:
+                userName = memName.replace("#", "@")
 
               db[userName] = [memName, habitDict, startIndex, "Multiple"]
               await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
@@ -346,7 +373,8 @@ async def on_message(message):
             if " " in memName:
               userName = memName.replace(" ", "@")
               userName = userName.replace("#", "@")
-
+            else: 
+              userName = memName.replace("#", "@")
             db[userName] = [memName, habitDict, startIndex, "Multiple"]
 
             await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
@@ -381,6 +409,8 @@ async def on_message(message):
             if " " in memName:
               userName = memName.replace(" ", "@")
               userName = userName.replace("#", "@")
+            else:
+              userName = memName.replace("#", "@")
             db[userName] = [memName, habitDict, startIndex, "Multiple"]
             await message.channel.send("Intialized Your Calender! Now type $myCal" + " ")
         else:
@@ -396,6 +426,8 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     retrieve_data(userName)
     day = int(todayArray[2]) + startIndex - 1
     newCal = []
@@ -420,6 +452,8 @@ async def on_message(message):
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
+        else:
+          userName = memName.replace("#", "@")
       db[userName] = [memName, myCal, startIndex, habitName]
       retrieve_data(userName)
     elif len(habitArray) == 1 and habitName == "Multiple":
@@ -439,6 +473,8 @@ async def on_message(message):
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
+        else:
+          userName = memName.replace("#", "@")
       db[userName] = [memName, myCal, startIndex, habitName]
       retrieve_data(userName)
     else:
@@ -451,6 +487,8 @@ async def on_message(message):
       if " " in memName:
         userName = memName.replace(" ", "@")
         userName = userName.replace("#", "@")
+      else:
+        userName = memName.replace("#", "@")
       db[userName] = [memName, newCal, startIndex, habitName]
       retrieve_data(userName)
     await message.channel.send("Recorded success for the day!")
@@ -460,6 +498,8 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     retrieve_data(userName)
     dayArray = msg.split(" ", 35)
     if len(dayArray) > 1 and habitName == "Multiple":
@@ -482,6 +522,8 @@ async def on_message(message):
           if " " in memName:
             userName = memName.replace(" ", "@")
             userName = userName.replace("#", "@")
+          else:
+            userName = memName.replace("#", "@")
         db[userName] = [memName, myCal, startIndex, habitName]
         retrieve_data(userName)
         await message.channel.send("Recorded!")
@@ -502,6 +544,8 @@ async def on_message(message):
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
+        else:
+          userName = memName.replace("#", "@")
         db[userName] = [memName, newCal, startIndex, habitName]
         retrieve_data(userName)
       await message.channel.send("Recorded!")
@@ -511,6 +555,8 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     retrieve_data(userName)
     dayArray = msg.split(" ", 35)
     if len(dayArray) > 1 and habitName == "Multiple":
@@ -533,6 +579,8 @@ async def on_message(message):
           if " " in memName:
             userName = memName.replace(" ", "@")
             userName = userName.replace("#", "@")
+          else:
+            userName = memName.replace("#", "@")
         db[userName] = [memName, myCal, startIndex, habitName]
         retrieve_data(userName)
         await message.channel.send("Recorded!")
@@ -553,6 +601,8 @@ async def on_message(message):
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
+        else:
+          userName = memName.replace("#", "@")
         db[userName] = [memName, newCal, startIndex, habitName]
         retrieve_data(userName)
       await message.channel.send("Recorded!")
@@ -562,6 +612,8 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     retrieve_data(userName)
     dayArray = msg.split(" ", 35)
     if len(dayArray) > 1 and habitName == "Multiple":
@@ -584,6 +636,8 @@ async def on_message(message):
           if " " in memName:
             userName = memName.replace(" ", "@")
             userName = userName.replace("#", "@")
+          else:
+            userName = memName.replace("#", "@")
         db[userName] = [memName, myCal, startIndex, habitName]
         retrieve_data(userName)
         await message.channel.send("Recorded!")
@@ -604,6 +658,8 @@ async def on_message(message):
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
+        else:
+          userName = memName.replace("#", "@")
         db[userName] = [memName, newCal, startIndex, habitName]
         retrieve_data(userName)
       await message.channel.send("Recorded!")
@@ -613,6 +669,8 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     retrieve_data(userName)
     day = int(todayArray[2]) + startIndex - 1
     newCal = []
@@ -637,6 +695,8 @@ async def on_message(message):
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
+        else:
+          userName = memName.replace("#", "@")
       db[userName] = [memName, myCal, startIndex, habitName]
       retrieve_data(userName)
     elif len(habitArray) == 1 and habitName == "Multiple":
@@ -656,6 +716,8 @@ async def on_message(message):
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
+        else:
+          userName = memName.replace("#", "@")
       db[userName] = [memName, myCal, startIndex, habitName]
       retrieve_data(userName)
     else:
@@ -668,6 +730,8 @@ async def on_message(message):
       if " " in memName:
         userName = memName.replace(" ", "@")
         userName = userName.replace("#", "@")
+      else:
+        userName = memName.replace("#", "@")
       db[userName] = [memName, newCal, startIndex, habitName]
       retrieve_data(userName)
     await message.channel.send("Recorded failure for the day :(")
@@ -677,6 +741,8 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     retrieve_data(userName)
     day = int(todayArray[2]) + startIndex - 1
     newCal = []
@@ -701,6 +767,8 @@ async def on_message(message):
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
+        else:
+          userName = memName.replace("#", "@")
       db[userName] = [memName, myCal, startIndex, habitName]
       retrieve_data(userName)
     elif len(habitArray) == 1 and habitName == "Multiple":
@@ -720,6 +788,8 @@ async def on_message(message):
         if " " in memName:
           userName = memName.replace(" ", "@")
           userName = userName.replace("#", "@")
+        else:
+          userName = memName.replace("#", "@")
       db[userName] = [memName, myCal, startIndex, habitName]
       retrieve_data(userName)
     else:
@@ -732,6 +802,8 @@ async def on_message(message):
       if " " in memName:
         userName = memName.replace(" ", "@")
         userName = userName.replace("#", "@")
+      else:
+        userName = memName.replace("#", "@")
       db[userName] = [memName, newCal, startIndex, habitName]
       retrieve_data(userName)
     await message.channel.send("Removed markings from the day.")
@@ -741,10 +813,11 @@ async def on_message(message):
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
     retrieve_data(userName)
     success = 0
     fail = 0
-
 
     if habitName == "Multiple":
       gradeDict = {}
