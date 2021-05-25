@@ -229,16 +229,14 @@ async def on_message(message):
       memName = dataToAdd[1]
       global habitName
       habitName = dataToAdd[2]
-      print(memName)
-      initialize_cal()
+      calVal = clean_initialize_cal()
       userName = ""
       if " " in memName:
         userName = memName.replace(" ", "@")
         userName = userName.replace("#", "@")
       else:
         userName = memName.replace("#", "@")
-      print(userName)
-      db[userName] = [memName, defaultCal, 0, habitName]
+      db[userName] = [memName, calVal, 0, habitName]
       retrieve_data(userName)
       await message.channel.send("Done!")
     else:
@@ -293,7 +291,6 @@ async def on_message(message):
     end = len(memName) - 5
     calName = (memName[slice(end)]) + "'s Accountability Calendar"
     habitDict = {}
-    print(habitName)
     if habitName == "No name":
       habitList = msg.split(" ", 10)
       if len(habitList) > 2:
@@ -341,7 +338,6 @@ async def on_message(message):
       choice = '{0.content}'.format(choice)
       if choice.upper() == "Y":
         habitList = msg.split(" ", 10)
-        print(habitDict)
         if len(habitList) > 2:
           if habitName == "Multiple":
             await message.channel.send("Performing habit add with numerous habits")
@@ -389,7 +385,6 @@ async def on_message(message):
           else:
             '''
           await message.channel.send("Performing habit add 1 habit with 1 habit")
-          print(habitDict)
           if habitName != "Multiple":
             habitDict[habitName] =  myCal
           else:
@@ -397,14 +392,11 @@ async def on_message(message):
               habitDict[key] = value
           habit = msg.split(" ", 1)[1]
           if len(habit) > 1:
-            print(habitDict)
             newHabit = ""
             newHabit = habit[1]
             newHabit = habit[0].upper() + habit[1:]
             calVal = clean_initialize_cal()
-            print(habitDict)
             habitDict[newHabit] = calVal
-            print(habitDict)
 
             if " " in memName:
               userName = memName.replace(" ", "@")
@@ -440,8 +432,6 @@ async def on_message(message):
           if key == proposedHabit:
             newCal = []
             n = 0
-            print (key)
-            print (myCal[key])
             for t in myCal[key]:
               if n != day:
                 newCal.append(t)
@@ -461,8 +451,6 @@ async def on_message(message):
         for proposedHabit in habitArray:
           newCal = []
           n = 0
-          print (key)
-          print (myCal[key])
           for t in myCal[key]:
             if n != day:
               newCal.append(t)
@@ -683,8 +671,6 @@ async def on_message(message):
           if key == proposedHabit:
             newCal = []
             n = 0
-            print (key)
-            print (myCal[key])
             for t in myCal[key]:
               if n != day:
                 newCal.append(t)
@@ -704,8 +690,6 @@ async def on_message(message):
         for proposedHabit in habitArray:
           newCal = []
           n = 0
-          print (key)
-          print (myCal[key])
           for t in myCal[key]:
             if n != day:
               newCal.append(t)
@@ -755,8 +739,6 @@ async def on_message(message):
           if key == proposedHabit:
             newCal = []
             n = 0
-            print (key)
-            print (myCal[key])
             for t in myCal[key]:
               if n != day:
                 newCal.append(t)
@@ -776,8 +758,6 @@ async def on_message(message):
         for proposedHabit in habitArray:
           newCal = []
           n = 0
-          print (key)
-          print (myCal[key])
           for t in myCal[key]:
             if n != day:
               newCal.append(t)
