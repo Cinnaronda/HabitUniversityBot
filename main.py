@@ -171,6 +171,8 @@ async def on_message(message):
       msg = msg.replace(str(grabMember[2]),"")
       msg = msg.replace("_","")
       await message.channel.send("You are now " + str(memName))
+    else:
+      await message.channel.send("You don't have permission to do that! We will do the requested command under your username instead.")
 
   if msg.startswith('$delData'):
     userName = ""
