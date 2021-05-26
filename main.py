@@ -14,9 +14,10 @@ from pytz import timezone
 
 
 #Variables
-tz = timezone('EST')
+tz = timezone('US/Eastern')
 client = discord.Client()
 today = str(datetime.datetime.now(tz))[0:10]
+theTime = str(datetime.datetime.now(tz))[11:16]
 todayArray = str(today).split("-")
 myCal = []
 defaultCal = []
@@ -273,6 +274,15 @@ async def on_message(message):
 
   if msg.startswith('$date'):
     await message.channel.send(today)
+
+  if msg.startswith('$time'):
+    theTime = str(datetime.datetime.now(tz))[11:16]
+    if int(theTime[0:2]) > 12:
+      newTime = str(int(theTime[0:2]) - 12) + theTime [2:5] + " PM"
+    else:
+      newTime = theTime + " AM"
+    print (theTime)
+    await message.channel.send(newTime)
 
   if msg.startswith('$sentBy'):
     await message.channel.send(message.author)
