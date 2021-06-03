@@ -354,7 +354,7 @@ async def on_message(message):
         print (command[1])
         n = 0
         for t in myCal:
-          if n != command[1]:
+          if n != int(command[1]):
             fixedCal.append(t)
           else:
             if command[0] == "r":
@@ -368,7 +368,8 @@ async def on_message(message):
             else:
               fixedCal.append(t)
           n += 1
-          print(fixedCal)
+        db[userName] = [memName, fixedCal, startIndex, habitName]
+        retrieve_data(userName)
         
       else:
         command = msg.split(" ")[1]
@@ -376,7 +377,7 @@ async def on_message(message):
         fixedCal = []
         n = 0
         for t in myCal[habitUndergoer]:
-          if n != command[1]:
+          if n != int(command[1]):
             fixedCal.append(t)
           else:
             if command[0] == "r":
@@ -390,9 +391,11 @@ async def on_message(message):
             else:
               fixedCal.append(t)
           n += 1
-        print (fixedCal)
+        myCal[habitUndergoer] = fixedCal
+        db[userName] = [memName, myCal, startIndex, habitName]
+        retrieve_data(userName)
 
-      await message.channel.send("ran")
+      await message.channel.send("Performed the surgery!")
 
   if msg.startswith('$retrieveData'):
     if memName == "CinnamonToast <3#9606":
