@@ -252,12 +252,27 @@ async def on_message(message):
       userName = memName.replace("#", "@")
     if month_change(userName):
       await message.channel.send("New month detected, restart calendar?Send Y for yes and N for no.")
+      sameAuthor = False
+      while sameAuthor == False:
+        msg2 = await client.wait_for("message")
+        if str(memName) == str(msg2.author):
+          string = '{0.content}'.format(msg2)
+          sameAuthor = True
+      if string.upper() == "Y":
+        await message.channel.send("Restarted!")
+      else:
+        await message.channel.send("Okay! Your calendar wasn't restarted. If you ever would like to go to the next month, just type $advanceMonth")
 
-  if msg.startswith('$waitTesting'):
-    await message.channel.send("Running test, send anything")
-    msg2 = await client.wait_for("message")
-    string = '{0.content}'.format(msg2)
-    await message.channel.send(memName + "said " + string)
+
+  if msg.startswith('$exampleWait'):
+    await message.channel.send("Which habit would you like to change?")
+    sameAuthor = False
+    while sameAuthor == False:
+      msg2 = await client.wait_for("message")
+      if str(memName) == str(msg2.author):
+        string = '{0.content}'.format(msg2)
+        sameAuthor = True
+    await message.channel.send(memName + " said " + string)
     
 
   if msg.startswith('$keys'):
