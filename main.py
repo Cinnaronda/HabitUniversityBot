@@ -50,7 +50,16 @@ startIndex = weekDay + 1
 if "responding" not in db.keys():
   db["responding"] = True
 
-#
+
+
+#def month_change():
+  #initialize_cal for each month
+  #compare initialized cals days with past cal
+  #when match is found match current initialized_cal
+  #if current match matches past cal match do nothing/procees
+  #if they do not match print new month detected, restart calendar?
+  #if user says no dont restart, hold off on initialize_cal and tell them how to go to next month when they are ready
+
 def initialize_cal():
   #for x in range(1, int(weekDay)+1):
   if weekDay == 6:
