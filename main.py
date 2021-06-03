@@ -373,7 +373,7 @@ async def on_message(message):
         
       else:
         command = msg.split(" ")[1]
-        habitUndergoer = msg.split(" ")[1]
+        habitUndergoer = msg.split(" ")[2]
         fixedCal = []
         n = 0
         for t in myCal[habitUndergoer]:
