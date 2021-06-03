@@ -330,6 +330,70 @@ async def on_message(message):
     else:
       await message.channel.send(calData)
 
+  if msg.startswith('$calendarSurgery'):
+    userName = ""
+    if " " in memName:
+      userName = memName.replace(" ", "@")
+      userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
+    retrieve_data(userName)
+    command = msg.split(" ")
+    print (command)
+    if len(command) != 2 and db[userName][3] != "Multiple":
+      await message.channel.send("Enter one command after $calendarSurgery please! Example: $calendarSurgery r3")
+
+    elif len(command) != 3 and db[userName][3] == "Multiple":
+      await message.channel.send("Enter one command and/or a habit name after $calendarSurgery please! Example: $calendarSurgery r3 Reading")
+
+    else:
+      if db[userName][3] != "Multiple":
+        command = msg.split(" ")[1]
+        fixedCal = []
+        print (command[0])
+        print (command[1])
+        n = 0
+        for t in myCal:
+          if n != command[1]:
+            fixedCal.append(t)
+          else:
+            if command[0] == "r":
+              fixedCal.append(" ")
+            elif command[0] == "s":
+              fixedCal.append("✓")
+            elif command[0] == "f":
+              fixedCal.append("x")
+            elif command[0] == "u":
+              fixedCal.append(".")
+            else:
+              fixedCal.append(t)
+          n += 1
+          print(fixedCal)
+        
+      else:
+        command = msg.split(" ")[1]
+        habitUndergoer = msg.split(" ")[1]
+        fixedCal = []
+        n = 0
+        for t in myCal[habitUndergoer]:
+          if n != command[1]:
+            fixedCal.append(t)
+          else:
+            if command[0] == "r":
+              fixedCal.append(" ")
+            elif command[0] == "s":
+              fixedCal.append("✓")
+            elif command[0] == "f":
+              fixedCal.append("x")
+            elif command[0] == "u":
+              fixedCal.append(".")
+            else:
+              fixedCal.append(t)
+          n += 1
+        print (fixedCal)
+
+      await message.channel.send("ran")
+
   if msg.startswith('$retrieveData'):
     if memName == "CinnamonToast <3#9606":
       retrieve_data(memName)
