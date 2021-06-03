@@ -52,13 +52,61 @@ if "responding" not in db.keys():
 
 
 
-#def month_change():
+def month_change(userName):
+  initCalYear = []
   #initialize_cal for each month
-  #compare initialized cals days with past cal
+  for monthNum in range (1,13):
+    tempCal = []
+    numDaysInMonth = calendar.monthrange(int(todayArray[0]),monthNum)[1]
+    weekDay = date(int(todayArray[0]), monthNum, 1).weekday()
+    startIndex = weekDay + 1
+    if weekDay == 6:
+      for y in range (0, numDaysInMonth):
+        #myCal.append["."]
+        if (numDaysInMonth - ((numDaysInMonth // 7) * 7)) != 0:
+          leftover = numDaysInMonth - ((numDaysInMonth // 7) * 7)
+          for a in range (0, leftover):
+            tempCal.append(".")
+    else : #Monday
+      for b in range (0, weekDay + 1):
+        tempCal.append(" ")
+      for a in range (0, numDaysInMonth):
+        tempCal.append(".")
+    initCalYear.append(tempCal)
+
+  userTempCal = []
+  takenCal = []
+  if db[userName][3] == "Multiple":
+    takenCal = (list(db[userName][1].values())[0])
+  else:
+    takenCal = (db[userName][1])
+
+  for symbol in takenCal:
+    if symbol == " ":
+      userTempCal.append(" ")
+    if symbol == "✓" or symbol == "x" or symbol == ".":
+      userTempCal.append(".")
+  
+  #compare initialized cals months with past cal
+  for monthNum in range (0,12):
+    if userTempCal == initCalYear[monthNum]:
+      pastMonVal = monthNum
+
   #when match is found match current initialized_cal
-  #if current match matches past cal match do nothing/procees
-  #if they do not match print new month detected, restart calendar?
+  currentTempCal = clean_initialize_cal()
+  for monthNum in range (0,12):
+    if currentTempCal == initCalYear[monthNum]:
+      curMonVal = monthNum
+
+  #if current match matches past cal match do nothing/proceed, if they do not match print new month detected, restart calendar?
+  if pastMonVal != curMonVal:
+    return True
+  else:
+    return False
+
   #if user says no dont restart, hold off on initialize_cal and tell them how to go to next month when they are ready
+
+  #restart variables
 
 def initialize_cal():
   #for x in range(1, int(weekDay)+1):
@@ -195,16 +243,22 @@ async def on_message(message):
     retrieve_data(userName)
     await message.channel.send("Erased your data!")
 
-  if msg.startswith('$dbTesting'):
+  if msg.startswith('$Testing'):
     userName = ""
     if " " in memName:
       userName = memName.replace(" ", "@")
       userName = userName.replace("#", "@")
     else:
       userName = memName.replace("#", "@")
+    if month_change(userName):
+      await message.channel.send("New month detected, restart calendar?Send Y for yes and N for no.")
+
+  if msg.startswith('$waitTesting'):
+    await message.channel.send("Running test, send anything")
+    msg2 = await client.wait_for("message")
+    string = '{0.content}'.format(msg2)
+    await message.channel.send(memName + "said " + string)
     
-    value = db[userName]
-    await message.channel.send(value)
 
   if msg.startswith('$keys'):
     
