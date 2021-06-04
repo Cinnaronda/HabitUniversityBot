@@ -478,6 +478,14 @@ async def on_message(message):
     await message.channel.send(calName)
 
   if msg.startswith('$advanceMonth'):
+    userName = ""
+    if " " in memName:
+      userName = memName.replace(" ", "@")
+      userName = userName.replace("#", "@")
+    else:
+      userName = memName.replace("#", "@")
+    retrieve_data(userName)
+    startIndex = weekDay + 1
     newCal = clean_initialize_cal()
     if db[userName][3] != "Multiple":
       db[userName] = [userName, newCal, startIndex, habitName]
@@ -486,6 +494,7 @@ async def on_message(message):
       for key in db[userName][1]:
         myCal[key] = newCal
       db[userName] = [userName, myCal, startIndex, habitName]
+    await message.channel.send("Intialized New Calender! Now type $myCal" + " ")
 
   if msg.startswith('$addHabit'):
     userName = ""
@@ -619,7 +628,7 @@ async def on_message(message):
         await message.channel.send("No habit was added. Remember, if you'd like to erase all data (including habits) you can use $delData")
 
   if msg.startswith("$set"):
-    db["CinnamonToast@<3@9606"]=['CinnamonToast <3#9606', {'Reading': [' ', ' ', ' ', ' ', ' ', ' ', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', 'x', 'x', '✓', '✓', '✓', '✓', '✓', '✓', '.'], 'WriteGoals': [' ', ' ', ' ', ' ', ' ', ' ', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', 'x', 'x', '✓', '✓', '✓', '✓', '✓', '✓', '.']}, 6, 'Multiple']
+    db["BigBlue@5676"]=['BigBlue#5676', [' ', ' ', ' ', ' ', ' ', ' ', '.', '.', '.', '.', '.', '.', '.', '.', '.', '✓', '✓', '✓', '✓', '✓', 'x', 'x', '✓', '✓', '✓', '✓', 'x', 'x', '✓', 'x', 'x', '✓', '✓', '✓', '✓', '✓', '.'], 6, 'Exercise']
 
   if msg.startswith('$success'):
     userName = ""
@@ -719,6 +728,7 @@ async def on_message(message):
       userName = memName.replace("#", "@")
     retrieve_data(userName)
     dayArray = msg.split(" ", 35)
+    startIndex = db[userName][2]
     if len(dayArray) > 1 and habitName == "Multiple":
       await message.channel.send("Which habit would you like to modify the calendar for?")
       msg2 = await client.wait_for("message")
