@@ -252,12 +252,14 @@ def retrieve_data(senderName):
 @client.event
 async def on_ready():
   print('We have logged in as {0.user}'.format(client))
+  await client.change_presence(activity=discord.Game(name="type $help"))
 
 @client.event
 async def on_message(message):
   #nickname = message.author
   if message.author == client.user:
     return
+
 
 
   msg = message.content
@@ -273,6 +275,9 @@ async def on_message(message):
     else:
       await message.channel.send("You don't have permission to do that! We will do the requested command under your username instead.")
 
+  if msg.startswith('$help'):
+    await message.channel.send("**$addHabit habitName**: adds a new habit named habitName (pick your own habit name) limit of 3 habits\n**$success**: marks success for the day for all habits \n**$fail**: marks fail for the day for all habits \n**$unmark**: unmarks the day for all habits \n**$sModify 3 9 6**: marks success for the 3rd 9th and 6th (pick your own numbers)\n**$fModify 3 9 6**: marks fail for the 3rd 9th and 6th (pick your own numbers)\n**$uModify 3 9 6**: unmarks the 3rd 9th and 6th (pick your own numbers\n**$advanceMonth**: restarts calendar to the new month\n**$myCal**: prints out your calendar")
+    
   if msg.startswith('$delData'):
     userName = ""
     if " " in memName:
