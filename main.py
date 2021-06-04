@@ -380,7 +380,6 @@ async def on_message(message):
       userName = memName.replace("#", "@")
     retrieve_data(userName)
     command = msg.split(" ")
-    print (command)
     if len(command) != 2 and db[userName][3] != "Multiple":
       await message.channel.send("Enter one command after $calendarSurgery please! Example: $calendarSurgery r3")
 
@@ -391,8 +390,6 @@ async def on_message(message):
       if db[userName][3] != "Multiple":
         command = msg.split(" ")[1]
         fixedCal = []
-        print (command[0])
-        print (command[1])
         n = 0
         for t in myCal:
           if n != int(command[1]):
@@ -628,7 +625,8 @@ async def on_message(message):
         await message.channel.send("No habit was added. Remember, if you'd like to erase all data (including habits) you can use $delData")
 
   if msg.startswith("$set"):
-    db["BigBlue@5676"]=['BigBlue#5676', [' ', ' ', ' ', ' ', ' ', ' ', '.', '.', '.', '.', '.', '.', '.', '.', '.', '✓', '✓', '✓', '✓', '✓', 'x', 'x', '✓', '✓', '✓', '✓', 'x', 'x', '✓', 'x', 'x', '✓', '✓', '✓', '✓', '✓', '.'], 6, 'Exercise']
+    #db["BigBlue@5676"]=['BigBlue#5676', [' ', ' ', ' ', ' ', ' ', ' ', '.', '.', '.', '.', '.', '.', '.', '.', '.', '✓', '✓', '✓', '✓', '✓', 'x', 'x', '✓', '✓', '✓', '✓', 'x', 'x', '✓', 'x', 'x', '✓', '✓', '✓', '✓', '✓', '.'], 6, 'Exercise']
+    print ("null")
 
   if msg.startswith('$success'):
     userName = ""
@@ -742,13 +740,9 @@ async def on_message(message):
           for i in myCal[string]:
             if n != int(day):
               newCal.append(i)
-              print (str(n) + " not equal to " + str(day))
             else:
               newCal.append("✓")
-              print (str(n) + " equal to " + str(day))
-              print(newCal)
             n += 1
-            print(newCal)
             
           myCal[string] = newCal
           if " " in memName:
