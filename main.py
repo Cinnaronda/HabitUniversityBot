@@ -38,6 +38,12 @@ if "responding" not in db.keys():
 
 
 def month_detection(userName):
+  month = str(todayArray[1])
+  if month[0] == "0":
+    month = int(month[1])
+  numDaysInMonth = calendar.monthrange(int(todayArray[0]),month)[1]
+  weekDay = date(int(todayArray[0]), month, 1).weekday()
+
   initCalYear = []
   #initialize_cal for each month
   for monthNum in range (1,13):
@@ -80,6 +86,12 @@ def month_detection(userName):
   print (startIndex)
 
 def month_change(userName):
+  month = str(todayArray[1])
+  if month[0] == "0":
+    month = int(month[1])
+  numDaysInMonth = calendar.monthrange(int(todayArray[0]),month)[1]
+  weekDay = date(int(todayArray[0]), month, 1).weekday()
+
   initCalYear = []
   #initialize_cal for each month
   for monthNum in range (1,13):
@@ -132,6 +144,12 @@ def month_change(userName):
     return False
 
 def initialize_cal():
+  month = str(todayArray[1])
+  if month[0] == "0":
+    month = int(month[1])
+  numDaysInMonth = calendar.monthrange(int(todayArray[0]),month)[1]
+  weekDay = date(int(todayArray[0]), month, 1).weekday()
+
   #for x in range(1, int(weekDay)+1):
   if weekDay == 6:
     for y in range (0, numDaysInMonth):
@@ -147,6 +165,12 @@ def initialize_cal():
       myCal.append(".")
 
 def clean_initialize_cal():
+  month = str(todayArray[1])
+  if month[0] == "0":
+    month = int(month[1])
+  numDaysInMonth = calendar.monthrange(int(todayArray[0]),month)[1]
+  weekDay = date(int(todayArray[0]), month, 1).weekday()
+  
   myCalClean = []
   #for x in range(1, int(weekDay)+1):
   if weekDay == 6:
@@ -271,7 +295,6 @@ async def on_message(message):
       else:
         await message.channel.send("Okay! Your calendar wasn't restarted. If you ever would like to go to the next month, just type $advanceMonth")
 
-
   if msg.startswith('$exampleWait'):
     await message.channel.send("Which habit would you like to change?")
     sameAuthor = False
@@ -282,7 +305,6 @@ async def on_message(message):
         sameAuthor = True
     await message.channel.send(memName + " said " + string)
     
-
   if msg.startswith('$keys'):
     
     keys = db.keys()
@@ -580,6 +602,7 @@ async def on_message(message):
             newHabit = habit[1]
             newHabit = habit[0].upper() + habit[1:]
             calVal = clean_initialize_cal()
+            
             habitDict[newHabit] = calVal
 
             if " " in memName:
@@ -596,8 +619,8 @@ async def on_message(message):
         await message.channel.send("No habit was added. Remember, if you'd like to erase all data (including habits) you can use $delData")
 
   if msg.startswith("$set"):
-    #db["BigBlue@5676"]=['BigBlue#5676', [' ', ' ', ' ', ' ', ' ', ' ', '.', '.', '.', '.', '.', '.', '.', '.', '.', '✓', '✓', '✓', '✓', '✓', 'x', 'x', '✓', '✓', '✓', '✓', 'x', 'x', '✓', 'x', 'x', '✓', '✓', '✓', '✓', '✓', '.'], 6, 'Exercise']
-    print ("null")
+    #db["BigBlue@5676"]=['BigBlue#5676', [' ', ' ', '✓', '✓', '✓', '✓', '✓', '✓', '✓', '✓', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], 2, 'Exercise']
+    await message.channel.send("Set!")
 
   if msg.startswith('$success'):
     userName = ""
@@ -726,7 +749,7 @@ async def on_message(message):
               userName = memName.replace("#", "@")
           db[userName] = [memName, myCal, startIndex, habitName]
           retrieve_data(userName)
-          await message.channel.send("Recorded" + string + "!")
+          await message.channel.send("Recorded " + string + "!")
         else:
           await message.channel.send("No such habit: " +string)
     else:
@@ -787,7 +810,7 @@ async def on_message(message):
               userName = memName.replace("#", "@")
           db[userName] = [memName, myCal, startIndex, habitName]
           retrieve_data(userName)
-          await message.channel.send("Recorded" + string + "!")
+          await message.channel.send("Recorded " + string + "!")
         else:
           await message.channel.send("No such habit: " +string)
     else:
@@ -848,7 +871,7 @@ async def on_message(message):
               userName = memName.replace("#", "@")
           db[userName] = [memName, myCal, startIndex, habitName]
           retrieve_data(userName)
-          await message.channel.send("Recorded" + string + "!")
+          await message.channel.send("Recorded " + string + "!")
         else:
           await message.channel.send("No such habit: " +string)
     else:
